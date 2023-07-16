@@ -1,3 +1,7 @@
+import BookComents from '../components/BookComents';
+import BookCommentsForm from '../components/BookCommentsForm';
+
+/* eslint-disable jsx-a11y/label-has-associated-control */
 const BookDetails = () => {
 	return (
 		<div>
@@ -49,6 +53,15 @@ const BookDetails = () => {
 							</button>
 						</div>
 					</div>
+				</div>
+				<div className="container mx-auto">
+					<BookCommentsForm />
+
+					<BookComents />
+					<BookComents />
+					<BookComents />
+					<BookComents />
+					<BookComents />
 				</div>
 			</section>
 		</div>
