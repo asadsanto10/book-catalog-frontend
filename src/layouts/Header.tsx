@@ -11,11 +11,11 @@ const Header = () => {
 					<Link to="#" className="mr-5 font-semibold cursor-pointer hover:text-indigo-200">
 						All Books
 					</Link>
-					<Link to="#" className="mr-5 font-semibold cursor-pointer hover:text-indigo-200">
-						Sign Up
-					</Link>
-					<Link to="#" className="mr-5 font-semibold cursor-pointer hover:text-indigo-200">
+					<Link to="/login" className="mr-5 font-semibold cursor-pointer hover:text-indigo-200">
 						Sign In
+					</Link>
+					<Link to="/register" className="mr-5 font-semibold cursor-pointer hover:text-indigo-200">
+						Sign Up
 					</Link>
 				</nav>
 				{/* <button className="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">
