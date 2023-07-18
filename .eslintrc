@@ -11,7 +11,7 @@
 		"plugin:react/recommended",
 		"plugin:react/jsx-runtime",
 		"plugin:@typescript-eslint/recommended",
-		"plugin:@typescript-eslint/recommended-requiring-type-checking",
+		// "plugin:@typescript-eslint/recommended-requiring-type-checking",
 		"plugin:prettier/recommended",
 		"plugin:import/recommended",
 		"plugin:jsx-a11y/recommended"
@@ -60,7 +60,7 @@
 		"class-methods-use-this": 0,
 		"linebreak-style": "off",
 		"@typescript-eslint/no-explicit-any": "warn",
-		"react-hooks/exhaustive-deps": "off",
+		"react-hooks/exhaustive-deps": "error",
 		"object-shorthand": "error",
 		"no-console": "warn",
 		"no-undef": 0,

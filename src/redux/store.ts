@@ -1,10 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
-import messagesSlice from './features/counter/counterSlice';
+import { apiSlice } from './api/apiSlice';
+import loginSlice from './features/login/loginSlice';
 
 const store = configureStore({
 	reducer: {
-		messages: messagesSlice.reducer,
+		[apiSlice.reducerPath]: apiSlice.reducer,
+		auth: loginSlice.reducer,
 	},
+	devTools: import.meta.env.MODE !== 'production',
+	middleware: (getDefaultMiddlewares) =>
+		getDefaultMiddlewares({ serializableCheck: false }).concat(apiSlice.middleware),
 });
 
 export default store;

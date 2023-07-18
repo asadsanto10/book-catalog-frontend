@@ -1,6 +1,5 @@
 import LoginForm from '../components/LoginForm';
 
-/* eslint-disable jsx-a11y/label-has-associated-control */
 const Login = () => {
 	return (
 		<section className="bg-gray-50">
