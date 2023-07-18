@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useLoginUserMutation } from '../redux/features/login/loginAPI';
 import { setLoginDetails } from '../redux/features/login/loginSlice';
 import { useAppDispatch } from '../redux/hook';
+import { IErrorResponse } from '../types/interface';
 
 export interface LoginFormInputs {
 	email: string;
@@ -34,7 +35,10 @@ const LoginForm: FC = () => {
 			dispatch(setLoginDetails({ accessToken: data?.data?.accessToken }));
 			naviaget('/');
 		}
-	}, [data, dispatch, naviaget]);
+		if (!isLoading && isError) {
+			console.log((error as IErrorResponse).data?.message);
+		}
+	}, [data, dispatch, error, isError, isLoading, naviaget]);
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
