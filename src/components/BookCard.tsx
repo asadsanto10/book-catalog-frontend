@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { IBook } from '../types/interface';
 
 interface Iprops {
@@ -5,7 +6,10 @@ interface Iprops {
 }
 
 const BookCard = ({ book }: Iprops) => {
-	const handelDetails = () => {};
+	const navigate = useNavigate();
+	const handelDetails = () => {
+		navigate(`/book-details/${book.id}`);
+	};
 	return (
 		<div className="py-8 flex flex-wrap md:flex-nowrap">
 			<div className="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">

@@ -16,7 +16,13 @@ const bookSlice = apiSlice.injectEndpoints({
 				method: 'GET',
 			}),
 		}),
+		getBookById: builder.query({
+			query: (bookId) => ({
+				url: `book/${bookId}`,
+				method: 'GET',
+			}),
+		}),
 	}),
 });
 
-export const { useGetAllBooksQuery, useCreateBookMutation } = bookSlice;
+export const { useGetAllBooksQuery, useCreateBookMutation, useGetBookByIdQuery } = bookSlice;
