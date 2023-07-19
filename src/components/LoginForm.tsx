@@ -2,8 +2,8 @@
 import { FC, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { useLoginUserMutation } from '../redux/features/login/loginAPI';
-import { setLoginDetails } from '../redux/features/login/loginSlice';
+import { useLoginUserMutation } from '../redux/features/auth/authAPI';
+import { setLoginDetails } from '../redux/features/auth/authSlice';
 import { useAppDispatch } from '../redux/hook';
 import { IErrorResponse } from '../types/interface';
 import Error from './ui/Error';
@@ -20,10 +20,9 @@ const LoginForm: FC = () => {
 		formState: { errors },
 	} = useForm<LoginFormInputs>();
 
-	const [loginUser, { data, isLoading, error, isError }] = useLoginUserMutation();
-
 	const dispatch = useAppDispatch();
 	const naviaget = useNavigate();
+	const [loginUser, { data, isLoading, error, isError }] = useLoginUserMutation();
 
 	const onSubmit: SubmitHandler<LoginFormInputs> = (inputData: LoginFormInputs): void => {
 		loginUser(inputData);
@@ -70,7 +69,7 @@ const LoginForm: FC = () => {
 			<button
 				disabled={isLoading}
 				type="submit"
-				className="w-full bg-indigo-600 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+				className="w-full disabled:bg-indigo-400 bg-indigo-600 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
 			>
 				Sign in
 			</button>
