@@ -6,6 +6,7 @@ import { useLoginUserMutation } from '../redux/features/login/loginAPI';
 import { setLoginDetails } from '../redux/features/login/loginSlice';
 import { useAppDispatch } from '../redux/hook';
 import { IErrorResponse } from '../types/interface';
+import Error from './ui/Error';
 
 export interface LoginFormInputs {
 	email: string;
@@ -35,10 +36,7 @@ const LoginForm: FC = () => {
 			dispatch(setLoginDetails({ accessToken: data?.data?.accessToken }));
 			naviaget('/');
 		}
-		if (!isLoading && isError) {
-			console.log((error as IErrorResponse).data?.message);
-		}
-	}, [data, dispatch, error, isError, isLoading, naviaget]);
+	}, [data?.data?.accessToken, data?.status, dispatch, naviaget]);
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
@@ -70,11 +68,15 @@ const LoginForm: FC = () => {
 			</div>
 
 			<button
+				disabled={isLoading}
 				type="submit"
 				className="w-full bg-indigo-600 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
 			>
 				Sign in
 			</button>
+
+			{isError && <Error message={(error as IErrorResponse).data?.message} />}
+
 			<p className="text-sm font-light text-gray-500">
 				Don’t have an account yet?{' '}
 				<Link to="/register" className="font-medium text-primary-600 hover:underline">
