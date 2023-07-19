@@ -1,11 +1,13 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
+import AuthLayout from '../layouts/AuthLayout';
 import AddBook from '../pages/AddBook';
 import AllBooks from '../pages/AllBooks';
 import BookDetails from '../pages/BookDetails';
 import Login from '../pages/Login';
 import NotFound from '../pages/NotFound';
 import Register from '../pages/Register';
+import PrivateRoute from './PrivateRoute';
 
 const router = createBrowserRouter([
 	{
@@ -18,7 +20,11 @@ const router = createBrowserRouter([
 			},
 			{
 				path: '/add-book',
-				element: <AddBook />,
+				element: (
+					<PrivateRoute>
+						<AddBook />
+					</PrivateRoute>
+				),
 			},
 			{
 				path: '/book-details/:bookId',
@@ -26,13 +32,28 @@ const router = createBrowserRouter([
 			},
 		],
 	},
+	// {
+	// 	path: '/auth/login',
+	// 	element: <Login />,
+	// },
+	// {
+	// 	path: '/register',
+	// 	element: <Register />,
+	// },
+
 	{
-		path: '/login',
-		element: <Login />,
-	},
-	{
-		path: '/register',
-		element: <Register />,
+		path: '/',
+		element: <AuthLayout />,
+		children: [
+			{
+				path: '/login',
+				element: <Login />,
+			},
+			{
+				path: '/register',
+				element: <Register />,
+			},
+		],
 	},
 	{
 		path: '*',

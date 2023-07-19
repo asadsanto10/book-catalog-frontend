@@ -1,6 +1,15 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { logout } from '../redux/features/auth/authSlice';
+import { useAppDispatch, useAppSelector } from '../redux/hook';
 
 const Header = () => {
+	const { accessToken, isLoggedIn } = useAppSelector((state) => state.auth);
+	const dispatch = useAppDispatch();
+	const naviaget = useNavigate();
+	const handelLogout = () => {
+		dispatch(logout());
+		naviaget('/login');
+	};
 	return (
 		<header className="text-gray-100 bg-indigo-500 body-font">
 			<div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
@@ -11,12 +20,27 @@ const Header = () => {
 					<Link to="#" className="mr-5 font-semibold cursor-pointer hover:text-indigo-200">
 						All Books
 					</Link>
-					<Link to="/login" className="mr-5 font-semibold cursor-pointer hover:text-indigo-200">
-						Sign In
-					</Link>
-					<Link to="/register" className="mr-5 font-semibold cursor-pointer hover:text-indigo-200">
-						Sign Up
-					</Link>
+					{!accessToken && !isLoggedIn ? (
+						<>
+							<Link to="/login" className="mr-5 font-semibold cursor-pointer hover:text-indigo-200">
+								Sign In
+							</Link>
+							<Link
+								to="/register"
+								className="mr-5 font-semibold cursor-pointer hover:text-indigo-200"
+							>
+								Sign Up
+							</Link>
+						</>
+					) : (
+						<button
+							onClick={handelLogout}
+							type="button"
+							className="mr-5 font-semibold cursor-pointer hover:text-indigo-200"
+						>
+							Sign Out
+						</button>
+					)}
 				</nav>
 				{/* <button className="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">
             Button

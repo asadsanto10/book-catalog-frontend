@@ -1,6 +1,5 @@
 import RegisterForm from '../components/RegisterForm';
 
-/* eslint-disable jsx-a11y/label-has-associated-control */
 const Register = () => {
 	return (
 		<section className="bg-gray-50">
