@@ -5,6 +5,7 @@ interface Iprops {
 }
 
 const BookCard = ({ book }: Iprops) => {
+	const handelDetails = () => {};
 	return (
 		<div className="py-8 flex flex-wrap md:flex-nowrap">
 			<div className="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
@@ -17,6 +18,7 @@ const BookCard = ({ book }: Iprops) => {
 				<h2 className="text-2xl font-medium text-gray-900 title-font mb-2">{book.title}</h2>
 				<p className="leading-relaxed">{book.description}</p>
 				<button
+					onClick={handelDetails}
 					type="button"
 					className="text-indigo-500 cursor-pointer inline-flex items-center mt-4"
 				>

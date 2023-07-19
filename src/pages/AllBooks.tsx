@@ -4,11 +4,14 @@ import BookCard from '../components/BookCard';
 import Filter from '../components/Filter';
 import SearchFiled from '../components/SearchFiled';
 import Error from '../components/ui/Error';
-import { useGetAllBooksQuery } from '../redux/features/book/bookSlice';
+
+import { useGetAllBooksQuery } from '../redux/features/book/bookAPI';
 import { IBook, IErrorResponse } from '../types/interface';
 
 const AllBooks = () => {
-	const { data, isLoading, error, isError } = useGetAllBooksQuery(undefined);
+	const { data, isLoading, error, isError } = useGetAllBooksQuery(undefined, {
+		refetchOnMountOrArgChange: true,
+	});
 
 	return (
 		<section className="text-gray-600 body-font overflow-hidden">
@@ -30,9 +33,10 @@ const AllBooks = () => {
 				<div className="-my-8 divide-y-2 divide-gray-100">
 					{isError && <Error message={(error as IErrorResponse).data?.message} />}
 
+					{isLoading && <div>Loading...</div>}
 					{!isLoading &&
 						data?.status &&
-						data?.data.map((items: IBook) => <BookCard key={items?._id} book={items} />)}
+						data?.data.map((items: IBook) => <BookCard key={items?.id} book={items} />)}
 				</div>
 			</div>
 		</section>
