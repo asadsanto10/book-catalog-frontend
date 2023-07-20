@@ -15,3 +15,12 @@ export interface IBook {
 	updatedAt?: string;
 	userId?: string;
 }
+
+export interface IReview {
+	bookId?: string;
+	createdAt?: string;
+	description?: string;
+	id?: string;
+	updatedAt?: string;
+	userId?: string;
+}

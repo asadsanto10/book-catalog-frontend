@@ -3,13 +3,23 @@ import BookComents from '../components/BookComents';
 import BookCommentsForm from '../components/BookCommentsForm';
 import Error from '../components/ui/Error';
 import { useGetBookByIdQuery } from '../redux/features/book/bookAPI';
-import { IErrorResponse } from '../types/interface';
+import { useGetReviewBookByIdQuery } from '../redux/features/review/reviewAPI';
+import { IErrorResponse, IReview } from '../types/interface';
 
 /* eslint-disable jsx-a11y/label-has-associated-control */
 const BookDetails = () => {
-	const { bookId } = useParams();
+	const { bookId } = useParams<{ bookId?: string }>();
 
-	const { data, isLoading, error, isError } = useGetBookByIdQuery(bookId, {
+	const { data, isLoading, error, isError } = useGetBookByIdQuery(bookId as string, {
+		refetchOnMountOrArgChange: true,
+	});
+
+	const {
+		data: reviewData,
+		isLoading: reviewIsLoading,
+		error: reviewError,
+		isError: reviewIsError,
+	} = useGetReviewBookByIdQuery(bookId as string, {
 		refetchOnMountOrArgChange: true,
 	});
 
@@ -72,11 +82,12 @@ const BookDetails = () => {
 				<div className="container mx-auto">
 					<BookCommentsForm />
 
-					<BookComents />
-					<BookComents />
-					<BookComents />
-					<BookComents />
-					<BookComents />
+					{reviewIsLoading && <div>Loading...</div>}
+					{reviewIsError && <Error message={(reviewError as IErrorResponse).data?.message} />}
+
+					{reviewData?.data?.map((review: IReview) => (
+						<BookComents key={review.id} reviewData={review} />
+					))}
 				</div>
 			</section>
 		</div>
