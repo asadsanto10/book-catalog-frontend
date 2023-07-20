@@ -1,11 +1,12 @@
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import BookComents from '../components/BookComents';
 import BookCommentsForm from '../components/BookCommentsForm';
 import Error from '../components/ui/Error';
-import { useGetBookByIdQuery } from '../redux/features/book/bookAPI';
+import { useDeleteBookMutation, useGetBookByIdQuery } from '../redux/features/book/bookAPI';
 import { useGetReviewBookByIdQuery } from '../redux/features/review/reviewAPI';
 import { IErrorResponse, IReview } from '../types/interface';
-
 /* eslint-disable jsx-a11y/label-has-associated-control */
 const BookDetails = () => {
 	const { bookId } = useParams<{ bookId?: string }>();
@@ -26,6 +27,42 @@ const BookDetails = () => {
 	const handelEditRedirect = () => {
 		navigate('/edit-book', { state: data?.data });
 	};
+
+	const [deleteBook, { data: deleteData, error: deletError, isError: deleteIsError }] =
+		useDeleteBookMutation();
+
+	const handelDelete = () => {
+		if (data?.data?.id) {
+			Swal.fire({
+				title: 'Are you sure?',
+				text: "You won't be able to revert this!",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Yes, delete it!',
+			}).then((result) => {
+				if (result.isConfirmed) {
+					deleteBook(data?.data?.id);
+				}
+			});
+		}
+	};
+
+	useEffect(() => {
+		if (deleteData?.status) {
+			Swal.fire({
+				icon: 'success',
+				title: 'Deleted!',
+				text: deleteData?.message,
+				showConfirmButton: false,
+				timer: 2000,
+			});
+			setTimeout(() => {
+				navigate('/');
+			}, 2000);
+		}
+	}, [deleteData?.message, deleteData?.status, navigate]);
 
 	return (
 		<div>
@@ -74,11 +111,17 @@ const BookDetails = () => {
 									</button>
 
 									<button
+										onClick={handelDelete}
 										type="button"
 										className="ml-4 inline-flex text-white bg-rose-500 border-0 py-2 px-6 focus:outline-none hover:bg-rose-800 rounded text-lg"
 									>
 										Delete
 									</button>
+								</div>
+								<div className="mt-5">
+									{deleteIsError && (
+										<Error message={(deletError as IErrorResponse).data?.message} />
+									)}
 								</div>
 							</div>
 						</>
