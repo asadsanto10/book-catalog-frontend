@@ -1,29 +1,60 @@
+/* eslint-disable react/no-array-index-key */
+import { ChangeEvent } from 'react';
+import { filterPublicationDate, filtergenre } from '../redux/features/book/bookFilterSlice';
+import { useAppDispatch } from '../redux/hook';
+import { IBook } from '../types/interface';
+
 /* eslint-disable jsx-a11y/label-has-associated-control */
-const Filter = () => {
+
+interface IFilterItemProps {
+	filterItem: IBook[];
+}
+const Filter = ({ filterItem }: IFilterItemProps) => {
+	const dispatch = useAppDispatch();
+	const handelGenre = (e: ChangeEvent<HTMLSelectElement>) => {
+		const genre = e.target.value;
+		dispatch(filtergenre(genre));
+	};
+
+	const handelPublicationDate = (e: ChangeEvent<HTMLSelectElement>) => {
+		const year = e.target.value;
+		dispatch(filterPublicationDate(year));
+	};
+
 	return (
 		<div className="flex justify-start items-center">
 			<div className="flex items-center mr-4">
 				<label htmlFor="genre" className="mr-2">
 					Genre:
 				</label>
-				<select id="genre" className="p-2 border border-gray-300 rounded-md focus:outline-none">
+				<select
+					onChange={handelGenre}
+					id="genre"
+					className="p-2 border border-gray-300 rounded-md focus:outline-none capitalize"
+				>
 					<option>All</option>
-					<option value="fiction">Fiction</option>
-					<option value="non-fiction">Non-Fiction</option>
-					<option value="thriller">Thriller</option>
-					{/* Add more genre options here */}
+					{[...new Set(filterItem.map(({ genre }) => genre))].map((item, i) => (
+						<option key={i} value={item}>
+							{item}
+						</option>
+					))}
 				</select>
 			</div>
 			<div className="flex items-center">
 				<label htmlFor="year" className="mr-2">
 					Publication Year:
 				</label>
-				<select id="year" className="p-2 border border-gray-300 rounded-md focus:outline-none">
+				<select
+					onChange={handelPublicationDate}
+					id="year"
+					className="p-2 border border-gray-300 rounded-md focus:outline-none"
+				>
 					<option>All</option>
-					<option value={2023}>2023</option>
-					<option value={2022}>2022</option>
-					<option value={2021}>2021</option>
-					{/* Add more year options here */}
+					{filterItem.map(({ publicationDate, id }) => (
+						<option key={id} value={new Date(publicationDate).getFullYear()}>
+							{new Date(publicationDate).getFullYear()}
+						</option>
+					))}
 				</select>
 			</div>
 		</div>

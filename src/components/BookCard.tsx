@@ -19,7 +19,8 @@ const BookCard = ({ book }: Iprops) => {
 				</span>
 			</div>
 			<div className="md:flex-grow">
-				<h2 className="text-2xl font-medium text-gray-900 title-font mb-2">{book.title}</h2>
+				<h2 className="text-2xl font-medium text-gray-900 title-font">{book.title}</h2>
+				<span className="text-gray-400 text-sm mb-2">{book.author}</span>
 				<p className="leading-relaxed">{book.description}</p>
 				<button
 					onClick={handelDetails}

@@ -11,18 +11,14 @@ import { IErrorResponse, IReview } from '../types/interface';
 const BookDetails = () => {
 	const { bookId } = useParams<{ bookId?: string }>();
 	const navigate = useNavigate();
-	const { data, isLoading, error, isError } = useGetBookByIdQuery(bookId as string, {
-		refetchOnMountOrArgChange: true,
-	});
+	const { data, isLoading, error, isError } = useGetBookByIdQuery(bookId as string, {});
 
 	const {
 		data: reviewData,
 		isLoading: reviewIsLoading,
 		error: reviewError,
 		isError: reviewIsError,
-	} = useGetReviewBookByIdQuery(bookId as string, {
-		refetchOnMountOrArgChange: true,
-	});
+	} = useGetReviewBookByIdQuery(bookId as string, {});
 
 	const handelEditRedirect = () => {
 		navigate('/edit-book', { state: data?.data });
@@ -81,7 +77,7 @@ const BookDetails = () => {
 							</div>
 							<div className="lg:flex-grow md:w-1/2 lg:pl-10 md:pl-10 flex flex-col md:items-start md:text-left items-center text-center">
 								<h1 className="title-font sm:text-4xl text-3xl mb-2 font-medium text-gray-900">
-									{data?.data.title}
+									{data?.data?.title}
 								</h1>
 								<div>
 									<h4 className="title-font text-md mb-2 text-gray-500">

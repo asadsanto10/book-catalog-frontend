@@ -6,19 +6,29 @@ import SearchFiled from '../components/SearchFiled';
 import Error from '../components/ui/Error';
 
 import { useGetAllBooksQuery } from '../redux/features/book/bookAPI';
+import { useAppSelector } from '../redux/hook';
 import { IBook, IErrorResponse } from '../types/interface';
 
 const AllBooks = () => {
-	const { data, isLoading, error, isError } = useGetAllBooksQuery(undefined, {
-		refetchOnMountOrArgChange: true,
-	});
+	const { searchTerm, genre, publicationDate } = useAppSelector((state) => state.bookFilter);
+
+	const { data, isLoading, error, isError } = useGetAllBooksQuery(
+		{ searchTerm, genre, publicationDate },
+		{
+			refetchOnMountOrArgChange: true,
+		}
+	);
+
+	const { data: filterItemData } = useGetAllBooksQuery({});
 
 	return (
 		<section className="text-gray-600 body-font overflow-hidden">
 			<div className="container px-5 py-10 mx-auto">
 				<div className="grid grid-cols-3 gap-4 mb-10">
 					<SearchFiled />
-					<Filter />
+					{filterItemData?.status && filterItemData?.data.length > 0 && (
+						<Filter filterItem={filterItemData?.data} />
+					)}
 
 					<div className="col-span-1 flex items-center">
 						<Link
@@ -34,6 +44,9 @@ const AllBooks = () => {
 					{isError && <Error message={(error as IErrorResponse).data?.message} />}
 
 					{isLoading && <div>Loading...</div>}
+					{!isLoading && data?.status && data?.data.length === 0 && (
+						<div className="text-lg">No data found!!</div>
+					)}
 					{!isLoading &&
 						data?.status &&
 						data?.data.map((items: IBook) => <BookCard key={items?.id} book={items} />)}

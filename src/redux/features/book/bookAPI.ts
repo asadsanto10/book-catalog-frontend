@@ -1,8 +1,36 @@
 import type { IBook } from '../../../types/interface';
 import { apiSlice } from '../../api/apiSlice';
 
+interface IQueryData {
+	searchTerm?: string;
+	publicationDate?: string;
+	genre?: string;
+}
+
 const bookSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
+		getAllBooks: builder.query({
+			query: (queryData: IQueryData) => {
+				let query = '';
+
+				if (queryData.searchTerm) {
+					query = `?searchTerm=${queryData.searchTerm}`;
+				}
+
+				if (queryData.genre && queryData.genre !== 'All') {
+					query = `?genre=${queryData.genre}`;
+				}
+
+				if (queryData.publicationDate && queryData.publicationDate !== 'All') {
+					query = `?publicationDate=${queryData.publicationDate}`;
+				}
+				return {
+					url: `/book/${query}`,
+					method: 'GET',
+				};
+			},
+			providesTags: ['book'],
+		}),
 		createBook: builder.mutation({
 			query: (data: IBook) => ({
 				url: '/book',
@@ -18,13 +46,7 @@ const bookSlice = apiSlice.injectEndpoints({
 			}),
 			invalidatesTags: ['book'],
 		}),
-		getAllBooks: builder.query({
-			query: () => ({
-				url: '/book',
-				method: 'GET',
-			}),
-			providesTags: ['book'],
-		}),
+
 		getBookById: builder.query({
 			query: (bookId: string) => ({
 				url: `book/${bookId}`,

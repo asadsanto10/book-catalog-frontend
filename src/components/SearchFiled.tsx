@@ -1,5 +1,19 @@
+import { ChangeEvent } from 'react';
+import { filterSearchTerm } from '../redux/features/book/bookFilterSlice';
+import { useAppDispatch } from '../redux/hook';
+
 /* eslint-disable jsx-a11y/label-has-associated-control */
 const SearchFiled = () => {
+	const dispatch = useAppDispatch();
+	// search handler with debounce
+	let timeOut: ReturnType<typeof setTimeout>;
+	const handelInput = (e: ChangeEvent<HTMLInputElement>) => {
+		const text = e.target.value;
+		clearTimeout(timeOut);
+		timeOut = setTimeout(() => {
+			dispatch(filterSearchTerm(text));
+		}, 1500);
+	};
 	return (
 		<form>
 			<label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only ">
@@ -25,18 +39,12 @@ const SearchFiled = () => {
 				</div>
 
 				<input
+					onChange={handelInput}
 					type="search"
 					id="default-search"
 					className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 outline-0"
 					placeholder="Search..."
-					required
 				/>
-				<button
-					type="submit"
-					className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
-				>
-					Search
-				</button>
 			</div>
 		</form>
 	);

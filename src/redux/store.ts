@@ -3,6 +3,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { apiSlice } from './api/apiSlice';
 import authSlice from './features/auth/authSlice';
+import bookFilterSlice from './features/book/bookFilterSlice';
 
 const persistConfig = {
 	key: 'root',
@@ -14,6 +15,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
 	[apiSlice.reducerPath]: apiSlice.reducer,
 	auth: authSlice.reducer,
+	bookFilter: bookFilterSlice.reducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
