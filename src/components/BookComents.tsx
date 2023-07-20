@@ -5,7 +5,7 @@ interface IProps {
 }
 const BookComents = ({ reviewData }: IProps) => {
 	return (
-		<div className="inline-flex items-center border-t py-4">
+		<div className="flex justify-center align-middle border-t py-4">
 			<img
 				alt="blog"
 				src="https://dummyimage.com/104x104"
@@ -13,9 +13,7 @@ const BookComents = ({ reviewData }: IProps) => {
 			/>
 			<span className="flex-grow flex flex-col pl-4">
 				<span className="title-font font-medium text-gray-900">{reviewData.description}</span>
-				{/* <span className="text-gray-400 text-xs tracking-widest mt-0.5">
-					By {reviewData.}
-				</span> */}
+				{/* <span className="text-gray-400 text-xs tracking-widest mt-0.5">By adsad</span> */}
 			</span>
 		</div>
 	);

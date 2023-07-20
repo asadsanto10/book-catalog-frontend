@@ -80,11 +80,10 @@ const BookDetails = () => {
 					)}
 				</div>
 				<div className="container mx-auto">
-					<BookCommentsForm />
+					<BookCommentsForm bookId={bookId as string} />
 
 					{reviewIsLoading && <div>Loading...</div>}
 					{reviewIsError && <Error message={(reviewError as IErrorResponse).data?.message} />}
-
 					{reviewData?.data?.map((review: IReview) => (
 						<BookComents key={review.id} reviewData={review} />
 					))}
