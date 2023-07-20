@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import BookComents from '../components/BookComents';
 import BookCommentsForm from '../components/BookCommentsForm';
 import Error from '../components/ui/Error';
@@ -9,7 +9,7 @@ import { IErrorResponse, IReview } from '../types/interface';
 /* eslint-disable jsx-a11y/label-has-associated-control */
 const BookDetails = () => {
 	const { bookId } = useParams<{ bookId?: string }>();
-
+	const navigate = useNavigate();
 	const { data, isLoading, error, isError } = useGetBookByIdQuery(bookId as string, {
 		refetchOnMountOrArgChange: true,
 	});
@@ -22,6 +22,10 @@ const BookDetails = () => {
 	} = useGetReviewBookByIdQuery(bookId as string, {
 		refetchOnMountOrArgChange: true,
 	});
+
+	const handelEditRedirect = () => {
+		navigate('/edit-book', { state: data?.data });
+	};
 
 	return (
 		<div>
@@ -62,6 +66,7 @@ const BookDetails = () => {
 								<p className="mb-8 leading-relaxed">{data?.data?.description}</p>
 								<div className="flex justify-center">
 									<button
+										onClick={handelEditRedirect}
 										type="button"
 										className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
 									>

@@ -4,6 +4,7 @@ import AuthLayout from '../layouts/AuthLayout';
 import AddBook from '../pages/AddBook';
 import AllBooks from '../pages/AllBooks';
 import BookDetails from '../pages/BookDetails';
+import EditBook from '../pages/EditBook';
 import Login from '../pages/Login';
 import NotFound from '../pages/NotFound';
 import Register from '../pages/Register';
@@ -23,6 +24,14 @@ const router = createBrowserRouter([
 				element: (
 					<PrivateRoute>
 						<AddBook />
+					</PrivateRoute>
+				),
+			},
+			{
+				path: '/edit-book',
+				element: (
+					<PrivateRoute>
+						<EditBook />
 					</PrivateRoute>
 				),
 			},
